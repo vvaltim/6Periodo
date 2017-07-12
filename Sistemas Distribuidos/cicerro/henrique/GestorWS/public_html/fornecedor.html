@@ -1,0 +1,279 @@
+<!DFOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>TODO supply a title </title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        
+    </head>
+    <body>
+        <div align="center"><h3>Fornecedores:</h3></div>
+        <br><br>
+        <div id="id01"></div>
+        <script> 
+      var HCL_xmlhttp_Get = new XMLHttpRequest();        
+        var HCL_xmlhttp_Put = new XMLHttpRequest(); 
+        var HCL_url_Get = "http://localhost:8080/Gestor/webresources/gestor/cliente/listarfornecedores";
+
+        HCL_xmlhttp_Get.onreadystatechange = function (){
+            if(HCL_xmlhttp_Get.readyState == 4 && HCL_xmlhttp_Get.status == 200){
+                var HCL_arr = JSON.parse(HCL_xmlhttp_Get.responseText);
+                HCL_myFunction(HCL_arr);
+                
+            }
+        
+        };
+        
+        
+        
+        
+        
+        HCL_xmlhttp_Get.open("GET", HCL_url_Get, true);
+        // executa a operação 
+        HCL_xmlhttp_Get.send();   
+                   
+                  function HCL_myFunction(HCL_arr){
+                  // var HCL_button = document.createElement("input");
+                  // HCL_button.type = "submit";
+                  // HCL_button.value = "My Button";
+                
+                     
+         //  HCL_var1 = document.getElementById("id01").appendChild(HCL_button);
+      
+                   var HCL_out = '<table border="2" id="table" align="center"><tr><th>Nro</th><th>Nome</th><th>CPF</th><th>E-mail</th><th>Telefone</th><th>'+
+                             'Editar</th><th>Excluir</th></tr>';
+                    var HCL_i;                  
+             
+                   for(HCL_i=0;HCL_i<HCL_arr.length;HCL_i++){
+                   
+             
+             
+                     HCL_out += '<tr id="'+(HCL_i+10001)+'" onmouseover="HCL_destacaL('+(HCL_i+10001)+')" onmouseout="HCL_NdestacaL('+(HCL_i+10001)+')" ><th>'+(HCL_i+1)+'</th><th>'+HCL_arr[HCL_i].HCL_nome+'<th>'+HCL_arr[HCL_i].HCL_Cpf+'</th><th>'+HCL_arr[HCL_i].HCL_Email+'</th><th>'+HCL_arr[HCL_i].HCL_Telefone+'</th>\n\
+                     <th id="'+(HCL_i+1001)+'" onclick= "HCL_mCampos('+HCL_i+')" onmouseover="HCL_destaca('+(HCL_i+1001)+')" onmouseout="HCL_ndestaca('+(HCL_i+1001)+')" ><image  src="img/img_edit.png" width="16" height="16" </image></td>'+
+    
+            
+                     '<th id="'+(HCL_i+1)+'" onclick= "HCL_exclui('+(HCL_i+1)+')" onmouseover="HCL_destaca('+(HCL_i+1)+')" onmouseout="HCL_ndestaca('+(HCL_i+1)+')" ><image   src="img/img_delete.png" width="16" height="16"   </image></td>'+
+                     '</tr>';
+
+                     }
+                    
+                      HCL_out+= '</table>';
+               
+                      document.getElementById("id01").innerHTML = HCL_out;
+ 
+                  }
+                  
+function HCL_mCampos(HCL_nro){
+         alert('func');
+         
+            if(HCL_xmlhttp_Get.readyState == 4 && HCL_xmlhttp_Get.status == 200){
+                var HCL_arr = JSON.parse(HCL_xmlhttp_Get.responseText);
+
+                document.getElementById("HCL_txtNome").value = HCL_arr[HCL_nro].HCL_nome;
+                document.getElementById("HCL_txtCPF").value  = HCL_arr[HCL_nro].HCL_Cpf;
+                document.getElementById("HCL_txtEmail").value  = HCL_arr[HCL_nro].HCL_Email; 
+                document.getElementById("HCL_txtTelefone").value    = HCL_arr[HCL_nro].HCL_Telefone;
+                document.getElementById("txtNro").value    = HCL_nro+1;
+        
+        };
+            
+
+}
+                  
+ function HCL_exclui(HCL_nro){ 
+              
+              var HCL_r = confirm("Tem certeza que deseja excluir a linha" +(HCL_nro) + " ?");
+              if (HCL_r == true) {
+                            //txt = "You pressed OK!";
+
+                        var HCL_nome = document.getElementById("HCL_txtNome").value;
+                        var HCL_Cpf = document.getElementById("HCL_txtCPF").value;
+                        var HCL_Telefone = document.getElementById("HCL_txtEmail").value;
+                        var HCL_Email = document.getElementById("HCL_txtTelefone").value;
+                        //var nro = document.getElementById("txtNro").value;
+                          
+                    //    document.getElementById("hcl_txtNome").value = arroz;
+                       var HCL_vJson = '{"HCL_nome":"'+HCL_nome+'","HCL_Cpf":"'+HCL_Cpf+'","HCL_Telefone":"'+HCL_Telefone+'","HCL_Email":"'+HCL_Email+'","HCL_nro":'+HCL_nro+'","op":"'+3+'"}';
+                       // var vJson = '{"modelo":"'+modelo+'","marca":"'+marca+'","placa":"'+placa+'","ano":"'+ano+'","nro":'+HCL_nro+'","op":"'+3+'"}';
+                         //     var vJson = '{nro":'+nro+'","op":'+3+'}';
+                         
+                        var HCL_xmlhttp_put = new XMLHttpRequest();
+
+                        var HCL_url_Put ="http://localhost:8080/HCL_prova_sd/wr/fornecedor";
+                        HCL_xmlhttp_put.open("PUT",HCL_url_Put,true);
+
+
+                        HCL_xmlhttp_put.setRequestHeader('content-type','application/json');
+                        HCL_xmlhttp_put.send(HCL_vJson);
+
+                        window.open('fornecedor.html');
+                        //document.getElementById("id01").innerHTML = HCL_vJson;
+
+
+                } else {
+                          //  txt = "You pressed Cancel!";
+                }                   
+              
+                 
+                             
+                 
+               }
+       
+              
+                 
+              function HCL_salva(){ 
+                 
+                  //alert('Funcionando');
+                 
+                var HCL_nome = document.getElementById("HCL_txtNome").value;
+                var HCL_Cpf = document.getElementById("HCL_txtCPF").value;
+                var HCL_Telefone = document.getElementById("HCL_txtTelefone").value;
+                var HCL_Email = document.getElementById("HCL_txtEmail").value;
+              //  var HCL_nro = document.getElementById("txtNro").value;
+
+                var HCL_nro = 00;
+                //var vJson = '{"modelo":"'+modelo+'","marca":"'+marca+'","placa":"'+placa+'","ano":"'+ano+'","nro":'+nro+'","op":"'+2+'"}';
+                var HCL_vJson = '{"HCL_nome":"'+HCL_nome+'","HCL_Cpf":"'+HCL_Cpf+'","HCL_Telefone":"'+HCL_Telefone+'","HCL_Email":"'+HCL_Email+'","HCL_nro":'+HCL_nro+'","op":"'+2+'"}';
+                var HCL_xmlhttp_put = new XMLHttpRequest();
+                
+              
+                 var HCL_url_Put ="http://localhost:8080/HCL_prova_sd/wr/fornecedor";
+                
+                  
+        
+             HCL_xmlhttp_put.open("PUT",HCL_url_Put,true);
+               
+
+             HCL_xmlhttp_put.setRequestHeader('content-type','application/json');
+             HCL_xmlhttp_put.send(HCL_vJson);
+                                                    
+            window.open('fornecedor.html');       
+            //     document.getElementById("id01").innerHTML = HCL_vJson;
+            }
+        
+ function HCL_edita(){ 
+                
+                var HCL_nome = document.getElementById("HCL_txtNome").value;
+                var HCL_Cpf = document.getElementById("HCL_txtCPF").value;
+                var HCL_Telefone = document.getElementById("HCL_txtTelefone").value;
+                var HCL_Email = document.getElementById("HCL_txtEmail").value;
+                  var HCL_nro = document.getElementById("txtNro").value;
+             
+                var HCL_vJson = '{"HCL_nome":"'+HCL_nome+'","HCL_Cpf":"'+HCL_Cpf+'","HCL_Telefone":"'+HCL_Telefone+'","HCL_Email":"'+ HCL_Email+'","HCL_nro":'+HCL_nro+'","op":"'+1+'"}';
+                var HCL_xmlhttp_put = new XMLHttpRequest();
+            //    var vJson = '{nro":'+nro+'","op":'+3+'}';
+                var HCL_url_Put ="http://localhost:8080/HCL_prova_sd/wr/fornecedor";
+                HCL_xmlhttp_put.open("PUT",HCL_url_Put,true);
+
+                
+                HCL_xmlhttp_put.setRequestHeader('content-type','application/json');
+                HCL_xmlhttp_put.send(HCL_vJson);
+                
+            
+               //  document.getElementById("id01").innerHTML = HCL_vJson;
+               window.open('fornecedor.html');
+                 
+               }
+             
+               
+             
+               function HCL_destaca(HCL_nro){
+        
+                    document.getElementById(HCL_nro).style.backgroundColor = "#bdbdbd"; 
+                
+              //     document.getElementById("teste").style.color = '#fff';//codigo hexadecimal para branco
+               var HCL_cor2 = document.getElementById(HCL_nro+1000).style.backgroundColor;
+                if(HCL_cor2 == "white"){
+                    //alert('o.O');
+                    document.getElementById(HCL_nro+1000).style.backgroundColor = "lightblue";
+                }
+               }
+               
+               function HCL_ndestaca(HCL_nro){
+                   document.getElementById(HCL_nro).style.backgroundColor = "white"; 
+                   
+               }
+               
+               function HCL_destacaL(HCL_nro){
+                
+                document.getElementById(HCL_nro).style.backgroundColor = "lightblue"; 
+                var HCL_cor = document.getElementById(HCL_nro-10000).style.backgroundColor;
+                if(HCL_cor == "white"){
+                    //alert('o.O');
+                document.getElementById(HCL_nro-10000).style.backgroundColor = "lightblue";
+                
+                
+                var HCL_cor2 = document.getElementById(HCL_nro-9000).style.backgroundColor;
+                if(HCL_cor2 == "white"){
+                    //alert('o.O');
+                    document.getElementById(HCL_nro-9000).style.backgroundColor = "lightblue";
+                }
+            }
+          
+               }
+                        
+                function HCL_NdestacaL(HCL_nro){
+              
+                 document.getElementById(HCL_nro).style.backgroundColor = "white"; 
+                 var HCL_cor = document.getElementById(HCL_nro-10000).style.backgroundColor;
+                 if(HCL_cor != "white"){
+                      document.getElementById(HCL_nro-10000).style.backgroundColor = "white";
+                 } 
+                 
+                  var HCL_cor2 = document.getElementById(HCL_nro-9000).style.backgroundColor;
+                  if(HCL_cor2 != "white"){
+                      document.getElementById(HCL_nro-9000).style.backgroundColor = "white";
+                 }
+                                                
+                 
+               } 
+               
+               
+               function HCL_CarregaVolta(){
+                  window.open('index.html');
+               }               
+               
+             
+               
+            
+        </script>
+  
+        
+        <br><br>
+        Nome:
+        <input type="text" id="HCL_txtNome"/>
+        
+        CPF:
+        <input type="text" id="HCL_txtCPF"/>
+               
+        E-mail:
+        <input type="text" id ="HCL_txtEmail"/>
+        
+        Telefone:
+        
+        <input type="text" id="HCL_txtTelefone"/>
+        
+      <!--  <button onclick="salva()">Salvar</button> -->
+     
+      <input TYPE="button" NAME="Finalizar edição" id="btn_Editar" value="Finalizar edição" onclick="HCL_edita()">
+      <input TYPE="button" NAME="submit" value="Salvar" onclick="HCL_salva()" >
+      <br>
+      <h4>Número da linha:</h4>    
+      <input TYPE="text" id="txtNro" value="" disabled="" size="4"> 
+   <!--   <input TYPE="button" NAME="excluir" id="btnExcluir" value="Excluir" onclick="exclui()" >   -->
+   <!--   <input TYPE="button" NAME="mostrar campos" id="btn_mCampos" value="Mostrar campos"  onclick="mCampos()" > -->
+   <!--  <input TYPE="image" SRC="img/img_delete.png" onclick="mCampos(1)" width="32" height="32" id="teste" onmouseover="HCL_destaca()" onmouseout="HCL_ndestaca()"> -->
+      <br><br><input type="button" value="Voltar"    name="bcliente"  onClick="HCL_CarregaVolta()()"  />
+        <div id="id01"></div>
+       
+    </body>
+        
+   
+    
+</html> 

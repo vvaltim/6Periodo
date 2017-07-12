@@ -1,0 +1,5 @@
+1º MikTek = https://miktex.org/download
+2º Ghostscript = https://www.ghostscript.com/download/gsdnld.html
+3º GSView = http://pages.cs.wisc.edu/~ghost/gsview/get50.htm
+4º Winedt = http://www.winedt.com/download.html
+5º Teste - Tamplate SBC para o Latex = https://pt.sharelatex.com/templates/journals/sbc
